@@ -47,5 +47,6 @@
     "location": "Pune India",
     "unit": "cel"
   },
-  "settingsIcon": false
+  "settingsIcon": false,
+  "disableIcons": true
 }

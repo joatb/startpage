@@ -19,6 +19,7 @@ userName = ""
 disable24Hour = false;
 appId = "fd2c04ed7f9802656bd2cc23bddc7ad9"
 apiUrl = "http://api.openweathermap.org/data/2.5/weather"
+apiIcons = 'https://www.google.com/s2/favicons?sz=64&domain_url='
 bgClassContainer = [
     "media",
     "work",
@@ -255,14 +256,16 @@ function parseAndCreate(jsonData) {
     // Extract the quicklinks from the sqrs
     extractQuickLinks(sqrs);
 
+    disableIcons = jsonData["disableIcons"]
+
     sqrs.forEach((element, index) => {
-        sqr = createSqr(element, index)
+        sqr = createSqr(element, index, disableIcons)
         document.getElementById(otherContentId).appendChild(sqr)
     })
     
 }
 
-function createSqr(sqrData, index) {
+function createSqr(sqrData, index, disableIcons) {
     // Create a new square division with the passed element
     name = sqrData["name"];
     links = sqrData["links"];
@@ -301,7 +304,25 @@ function createSqr(sqrData, index) {
         attrHref.value = aHref
         a.setAttributeNode(attrHref)
 
-        a.textContent = aName
+        img = document.createElement("img")
+        
+        if(!disableIcons){
+            attrSrc = document.createAttribute("src")
+            attrSrc.value = apiIcons + aHref
+            img.setAttributeNode(attrSrc)
+
+            attrWidth = document.createAttribute("width")
+            attrWidth.value = '16px'
+            img.setAttributeNode(attrWidth)
+
+            attrHeight = document.createAttribute("height")
+            attrHeight.value = '16px'
+            img.setAttributeNode(attrHeight)
+            a.appendChild(img)
+        }
+
+        var textnode = document.createTextNode(aName);
+        a.appendChild(textnode);
 
         div.appendChild(a)
     })
